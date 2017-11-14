@@ -56,13 +56,38 @@ $lot_time_remaining = sprintf('%02d', $hours) . ':' . sprintf('%02d', $minutes);
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <?php
-              $category = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
-              $cat__count = count($category);
+              $categories = [
+                [
+                'name' => "Доски и лыжи",
+                'cssClass' => 'class="promo__item promo__item--boards"'
+                ],
+                [
+                'name' => "Крепления",
+                'cssClass' => 'class="promo__item promo__item--attachment"'
+                ],
+                [
+                'name' => "Ботинки",
+                'cssClass' => 'class="promo__item promo__item--boots"'
+                ],
+                [
+                'name' => "Одежда",
+                'cssClass' => 'class="promo__item promo__item--clothing"'
+                ],
+                [
+                'name' => "Инструменты",
+                'cssClass' => 'class="promo__item promo__item--tools"'
+                ],
+                [
+                'name' => "Разное",
+                'cssClass' => 'class="promo__item promo__item--other"'
+                ]
+              ];
 
-              foreach ($category as $value) {
-                print('<li class="promo__item promo__item--tools">');
-                print("<a class='promo__link' href='all-lots.html'> $value </a>");
+              foreach ($categories as $value) {
+                print("<li $value[cssClass]>");
+                print("<a class='promo__link' href='all-lots.html'> $value[name] </a>");
                 print('</li>');
+
               }
              ?>
         </ul>
@@ -76,54 +101,54 @@ $lot_time_remaining = sprintf('%02d', $hours) . ':' . sprintf('%02d', $minutes);
             $lots__list = [
               [
                 'lot_name' => '2014 Rossignol District Snowboard',
-                'lot_category' => 'Доски и лыжи',
+                'lot_category' => $categories[0],
                 'lot_price' => '10999',
                 'lot_url' => 'img/lot-1.jpg'
               ],
               [
                 'lot_name' => 'DC Ply Mens 2016/2017 Snowboard',
-                'lot_category' => 'Доски и лыжи',
+                'lot_category' => $categories[1],
                 'lot_price' => '159999',
                 'lot_url' => 'img/lot-2.jpg'
               ],
               [
                 'lot_name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-                'lot_category' => 'Крепления',
+                'lot_category' => $categories[2],
                 'lot_price' => '8000',
                 'lot_url' => 'img/lot-3.jpg'
               ],
               [
                 'lot_name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-                'lot_category' => 'Ботинки',
+                'lot_category' => $categories[3],
                 'lot_price' => '10999',
                 'lot_url' => 'img/lot-4.jpg'
               ],
               [
                 'lot_name' => 'Куртка для сноуборда DC Mutiny Charocal',
-                'lot_category' => 'Одежда',
+                'lot_category' => $categories[4],
                 'lot_price' => '7500',
                 'lot_url' => 'img/lot-5.jpg'
               ],
               [
                 'lot_name' => 'Маска Oakley Canopy',
-                'lot_category' => 'Разное',
+                'lot_category' => $categories[5],
                 'lot_price' => '5400',
                 'lot_url' => 'img/lot-6.jpg'
               ]
             ]
            ?>
-           <?php foreach ($lots__list  as $key => $value): ?>
+           <?php foreach ($lots__list  as $key => $lot): ?>
               <li class="lots__item lot">
                   <div class="lot__image">
-                      <img src="<?=$value['lot_url']?>" width="350" height="260" alt="Сноуборд">
+                      <img src="<?=$lot['lot_url']?>" width="350" height="260" alt="Сноуборд">
                   </div>
                   <div class="lot__info">
-                      <span class="lot__category"><?=$value['lot_category']?></span>
-                      <h3 class="lot__title"><a class="text-link" href="lot.html"><?=$value['lot_name']?></a></h3>
+                      <span class="lot__category"><?=$lot['lot_category']['name']?></span>
+                      <h3 class="lot__title"><a class="text-link" href="lot.html"><?=$lot['lot_name']?></a></h3>
                       <div class="lot__state">
                           <div class="lot__rate">
                               <span class="lot__amount">Стартовая цена</span>
-                              <span class="lot__cost"><?=$value['lot_price']?><b class="rub">р</b></span>
+                              <span class="lot__cost"><?=$lot['lot_price']?><b class="rub">р</b></span>
                           </div>
                           <div class="lot__timer timer">
                               <?=$lot_time_remaining;?>
