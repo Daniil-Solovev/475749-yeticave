@@ -7,6 +7,23 @@ $bets = [
     ['name' => 'Евгений', 'price' => 10500, 'ts' => strtotime('-' . rand(25, 50) .' hour')],
     ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
 ];
+
+function time_left($var) {
+  $now = time();
+  $result = $now - $var;
+  $result__form = floor(($now - $var) / 3600);
+
+  if ($result__form > 24) {
+    $print = date('d.m.y', $var) . " в " . date('H:i', $var);
+  }
+  elseif ($result__form > 1 && $result__form < 24) {
+    $print = $result__form . " часов назад";
+  }
+  else {
+    $print = floor($result / 60) . " минут назад";
+  }
+  return $print;
+}
 ?>
 
 <!DOCTYPE html>
@@ -111,11 +128,13 @@ $bets = [
                     <h3>История ставок (<span>4</span>)</h3>
                     <!-- заполните эту таблицу данными из массива $bets-->
                     <table class="history__list">
+                      <?php foreach ($bets as $lot__history): ?>
                         <tr class="history__item">
-                            <td class="history__name"><!-- имя автора--></td>
-                            <td class="history__price"><!-- цена--> р</td>
-                            <td class="history__time"><!-- дата в человеческом формате--></td>
+                            <td class="history__name"><?= $lot__history['name'] ?></td>
+                            <td class="history__price"><?= $lot__history['price'] ?> р</td>
+                            <td class="history__time"><?= time_left($lot__history['ts']) ?></td>
                         </tr>
+                      <?php endforeach ?>
                     </table>
                 </div>
             </div>
