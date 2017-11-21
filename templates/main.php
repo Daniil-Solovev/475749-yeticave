@@ -33,7 +33,7 @@
                              <span class="lot__cost"><?=$lot['lot_price']?><b class="rub">р</b></span>
                          </div>
                          <div class="lot__timer timer">
-                             <?=$lot_time_remaining;?>
+                             <?=lot_time_remaining(rand(0,24), rand(0,60));?>
                          </div>
                      </div>
                  </div>

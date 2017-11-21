@@ -1,6 +1,7 @@
 <?php
 require_once('templates/data.php');
 require_once('functions.php');
+require_once('app/init.php');
 ?>
 
 <!DOCTYPE html>
