@@ -23,4 +23,4 @@ function time_left($var) {
   return floor($result / 60) . " минут назад";
 
 }
-?>
+

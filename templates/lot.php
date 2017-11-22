@@ -79,7 +79,7 @@
             </div>
         </div>
         <?php else:?>
-            <h1>Лот с таким id не найден</h1>
+                <h1>Лот с таким id не найден</h1>
         <?php endif ?>
     </section>
 </main>
