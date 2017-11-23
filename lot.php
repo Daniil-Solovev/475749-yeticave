@@ -13,14 +13,6 @@ if (isset($_GET['lot_id'])) {
             break;
         }
     }
-} else {
-    $lot_id = 0;
-    foreach ($lots__list as $item) {
-        if ($item['lot_id'] == $lot_id) {
-            $lot = $item;
-            break;
-        }
-    }
 }
 
 if (!$lot) {
