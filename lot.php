@@ -7,8 +7,8 @@ $lot = null;
 
 if (isset($_GET['lot_id'])) {
     $lot_id = $_GET['lot_id'];
-    foreach ($lots__list as $item) {
-        if ($item['lot_id'] == $lot_id) {
+    foreach ($lots__list as $key => $item) {
+        if ($key == $lot_id) {
             $lot = $item;
             break;
         }

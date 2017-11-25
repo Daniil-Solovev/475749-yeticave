@@ -33,7 +33,6 @@ $lots__list = [
    'lot_category' => $categories[0],
    'lot_price' => '10999',
    'lot_url' => 'img/lot-1.jpg',
-   'lot_id' => '0',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ],
@@ -42,7 +41,6 @@ $lots__list = [
    'lot_category' => $categories[0],
    'lot_price' => '159999',
    'lot_url' => 'img/lot-2.jpg',
-   'lot_id' => '1',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ],
@@ -51,7 +49,6 @@ $lots__list = [
    'lot_category' => $categories[1],
    'lot_price' => '8000',
    'lot_url' => 'img/lot-3.jpg',
-   'lot_id' => '2',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ],
@@ -60,7 +57,6 @@ $lots__list = [
    'lot_category' => $categories[2],
    'lot_price' => '10999',
    'lot_url' => 'img/lot-4.jpg',
-   'lot_id' => '3',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ],
@@ -69,7 +65,6 @@ $lots__list = [
    'lot_category' => $categories[3],
    'lot_price' => '7500',
    'lot_url' => 'img/lot-5.jpg',
-   'lot_id' => '4',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ],
@@ -78,7 +73,6 @@ $lots__list = [
    'lot_category' => $categories[5],
    'lot_price' => '5400',
    'lot_url' => 'img/lot-6.jpg',
-   'lot_id' => '5',
    'lot_time_hours' => rand(0, 24),
    'lot_time_min' => rand(0, 60)
   ]

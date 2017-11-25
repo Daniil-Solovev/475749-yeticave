@@ -21,6 +21,27 @@ function time_left($var) {
     return $result__form . " часов назад";
   }
   return floor($result / 60) . " минут назад";
-
 }
 
+function cat_class($class) {
+
+    if ($class == 'Доски и лыжи') {
+        $result = 'boards';
+    }
+    elseif ($class == 'Крепления') {
+        $result = 'attachment';
+    }
+    elseif ($class == 'Ботинки') {
+        $result = 'boots';
+    }
+    elseif ($class == 'Одежда') {
+        $result = 'clothing';
+    }
+    elseif ($class == 'Инструменты') {
+        $result = 'tools';
+    }
+    elseif ($class == 'Разное') {
+        $result = 'other';
+    }
+    return $result;
+}
