@@ -22,41 +22,38 @@
             </li>
         </ul>
     </nav>
-    <form class="form form--add-lot container <?=$err_msg?>" action="add.php" method="post"> <!-- form--invalid-->
+    <form class="form form--add-lot container <?php $err_msg = isset($err_msg) ? 'form--invalid' : ''?><?=$err_msg?>" action="add.php" method="post"> <!-- form--invalid-->
         <h2>Добавление лота</h2>
         <div class="form__container-two">
-        <?php $block_name = in_array(false, $errors['lot-name']) ? 'form__item--invalid' : '';
-        $span_name = in_array(false, $errors['lot-name']) ? 'Заполните это поле' : '' ?>
+        <?php $block_name = in_array('required', $errors['lot-name']) ? 'form__item--invalid' : '';
+        $span_name = in_array('required', $errors['lot-name']) ? $error_messages['required'] : '' ?>
             <div class="form__item <?=$block_name?>"> <!-- form__item--invalid -->
                 <label for="lot-name">Наименование</label>
                 <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" >
                 <span class="form__error "><?=$span_name?></span>
             </div>
-            <?php $category_name = in_array(false, $errors['category']) ? 'form__item--invalid' : '';
-            $span_category = in_array(false, $errors['category']) ? 'Необходимо выбрать категорию' : '' ?>
+            <?php $category_name = in_array('required', $errors['category']) ? 'form__item--invalid' : '';
+            $span_category = in_array('required', $errors['category']) ? $error_messages['category'] : '' ?>
             <div class="form__item <?=$category_name?>">
                 <label for="category">Категория</label>
                 <select id="category" name="category">
-                    <option></option>
-                    <option>Доски и лыжи</option>
-                    <option>Крепления</option>
-                    <option>Ботинки</option>
-                    <option>Одежда</option>
-                    <option>Инструменты</option>
-                    <option>Разное</option>
+                    <option>Выберите категорию</option>
+                    <?php foreach ($categories as $cat_id => $cat_value) :?>
+                    <option value="<?=$cat_id?>"><?=$cat_value['name']?></option>
+                    <?php endforeach ?>
                 </select>
                 <span class="form__error "><?=$span_category?></span>
             </div>
         </div>
-        <?php $message_name = in_array(false, $errors['message']) ? 'form__item--invalid' : '';
-        $span_message = in_array(false, $errors['message']) ? 'Заполните описание' : '' ?>
+        <?php $message_name = in_array('required', $errors['message']) ? 'form__item--invalid' : '';
+        $span_message = in_array('required', $errors['message']) ? $error_messages['required'] : '' ?>
         <div class="form__item form__item--wide <?=$message_name?>">
             <label for="message">Описание</label>
             <textarea id="message" name="message" placeholder="Напишите описание лота" required></textarea>
             <span class="form__error"><?=$span_message?></span>
         </div>
-        <?php $file_name = in_array(false, $errors['file']) ? 'form__item--invalid' : '';
-        $span_file = in_array(false, $errors['file']) ? 'Выберите файл' : '+ Добавить' ?>
+        <?php $file_name = in_array('required', $errors['file']) ? 'form__item--invalid' : '';
+        $span_file = in_array('required', $errors['file']) ? $error_messages['file_not_uploaded'] : '+ Добавить' ?>
         <div class="form__item form__item--file <?=$file_name?>"> <!-- form__item--uploaded -->
             <label>Изображение</label>
             <div class="preview">
@@ -73,22 +70,22 @@
             </div>
         </div>
         <div class="form__container-three ">
-            <?php $lot_rate_name = in_array(false, $errors['lot-rate']) ? 'form__item--invalid' : '';
-            $span_lot_rate = in_array(false, $errors['lot-rate']) ? 'Введите начальную цену' : '' ?>
+            <?php $lot_rate_name = in_array('int', $errors['lot-rate']) ? 'form__item--invalid' : '';
+            $span_lot_rate = in_array('int', $errors['lot-rate']) ? $error_messages['int'] : '' ?>
             <div class="form__item form__item--small <?=$lot_rate_name?>">
                 <label for="lot-rate">Начальная цена</label>
                 <input id="lot-rate" type="number" name="lot-rate" placeholder="0" required>
                 <span class="form__error "><?=$span_lot_rate?></span>
             </div>
-            <?php $lot_step_name = in_array(false, $errors['lot-step']) ? 'form__item--invalid' : '';
-            $span_lot_step = in_array(false, $errors['lot-step']) ? 'Введите шаг ставки' : '' ?>
+            <?php $lot_step_name = in_array('int', $errors['lot-step']) ? 'form__item--invalid' : '';
+            $span_lot_step = in_array('int', $errors['lot-step']) ? $error_messages['int'] : '' ?>
             <div class="form__item form__item--small <?=$lot_step_name?>">
                 <label for="lot-step">Шаг ставки</label>
                 <input id="lot-step" type="number" name="lot-step" placeholder="0" required>
                 <span class="form__error"><?=$span_lot_step?></span>
             </div>
-            <?php $lot_date_name = in_array(false, $errors['lot-date']) ? 'form__item--invalid' : '';
-            $span_lot_date = in_array(false, $errors['lot-date']) ? 'Введите дату завершения торгов' : '' ?>
+            <?php $lot_date_name = in_array('required', $errors['lot-date']) ? 'form__item--invalid' : '';
+            $span_lot_date = in_array('required', $errors['lot-date']) ? $error_messages['required'] : '' ?>
             <div class="form__item <?=$lot_date_name?>">
                 <label for="lot-date">Дата окончания торгов</label>
                 <input class="form__input-date" id="lot-date" type="date" name="lot-date" required>

@@ -1,4 +1,5 @@
 <?php
+
 function renderTemplate($path, $data) {
    if(!file_exists($path)) {
        return "";
@@ -44,4 +45,14 @@ function cat_class($class) {
         $result = 'other';
     }
     return $result;
+}
+
+function getCategoryById($id, $array) {
+    foreach ($array as $key => $value) {
+        if ($key = $id) {
+            $lot_id = $key;
+            break;
+        }
+    }
+    return $lot_id;
 }

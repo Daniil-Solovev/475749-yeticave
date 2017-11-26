@@ -7,59 +7,63 @@ function validate_int($arg) {
 }
 $err_msg = null;
 $errors = [
-    'lot-name' => ['required' => true],
-    'category' => ['required' => true],
-    'message' => ['required' => true],
-    'file' => ['required' => true],
-    'lot-rate' => ['required' => true],
-    'lot-step' => ['required' => true],
-    'lot-date' => ['required' => true]
+    'lot-name' => [],
+    'category' => [],
+    'message' => [],
+    'file' => [],
+    'lot-rate' => [],
+    'lot-step' => [],
+    'lot-date' => []
+];
+
+$error_messages = [
+    'required' => 'Заполните это поле',
+    'category' => 'Выберите категорию',
+    'int' => 'Введите целое число',
+    'file_not_uploaded' => 'Файл не загружен'
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($_POST['lot-name'])) {
-        $errors['lot-name'] = ['required' => false];
-        $err_msg = 'form--invalid';
+        $errors['lot-name'][] = 'required';
+        $err_msg = true;
     }
     if (empty($_POST['category'])) {
-        $errors['category'] = ['required' => false];
-        $err_msg = 'form--invalid';
+        $errors['category'][] = 'required';
+        $err_msg = true;
     }
     if (empty($_POST['message'])) {
-        $errors['message'] = ['required' => false];
-        $err_msg = 'form--invalid';
+        $errors['message'][] = 'required';
+        $err_msg = true;
     }
     if (empty($_POST['lot-rate'])) {
-        $errors['lot-rate'] = ['required' => false];
-        $err_msg = 'form--invalid';
-    }
-    if (empty($_POST['lot-step'])) {
-        $errors['lot-step'] = ['required' => false];
-        $err_msg = 'form--invalid';
-    }
-    if (empty($_POST['lot-date'])) {
-        $errors['lot-date'] = ['required' => false];
-        $err_msg = 'form--invalid';
+        $errors['lot-rate'][] = 'required';
+        $err_msg = true;
     }
 
-    if (!empty($_POST['lot-rate'])) {
-        $result = validate_int($_POST['lot-rate']);
-        if (!$result) {
-            $errors['lot-rate'] = ['required' => false];
-            $err_msg = 'form--invalid';
-        }
+    if (empty($_POST['lot-step'])) {
+        $errors['lot-step'][] = 'required';
+        $err_msg = true;
     }
-    if (!empty($_POST['lot-step'])) {
-        $result = validate_int($_POST['lot-step']);
-        if (!$result) {
-            $errors['lot-step'] = ['required' => false];
-            $err_msg = 'form--invalid';
-        }
+
+    if (!validate_int($_POST['lot-step'])) {
+        $errors['lot-step'][] = 'int';
+        $err_msg = true;
+    }
+
+    if (!validate_int($_POST['lot-rate'])) {
+        $errors['lot-rate'][] = 'int';
+        $err_msg = true;
+    }
+
+    if (empty($_POST['lot-date'])) {
+        $errors['lot-date'][] = 'required';
+        $err_msg = true;
     }
 
     if (empty($_POST['file'])) {
-        $errors['file'] = ['required' => false];
+        $errors['file'][] = 'required';
     }
 
     if (isset($_FILES['file']['name'])) {
@@ -69,13 +73,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $tmp_name);
         if ($file_type !== "image/gif") {
-            $errors['file'] = ['required' => false];
+            $errors['file'][] = 'required';
         } else {
             move_uploaded_file($tmp_name, 'img/' . $path);
+            if (!$_FILES['file']['error'] == 0) {
+                $errors['file'][] = 'file_not_uploaded';
+            }
         }
     }
 
-    if (!in_array(false, $errors)) {
+    if (!$err_msg) {
         $categories[] = [
             'name' => $_POST['category'],
             'cssClass' => cat_class($_POST['category'])
@@ -93,11 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lots__list' => $lots__list, 'lot' => $lot, 'bets' => $bets]);
     } else {
-        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg]);
+        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
     }
     
 } else {
-    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg]);
+    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'categories' => $categories]);
 }
 
 $page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот']);

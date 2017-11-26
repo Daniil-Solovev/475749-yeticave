@@ -2,35 +2,41 @@
 
 $categories = [
   [
-  'name' => "Доски и лыжи",
-  'cssClass' => 'boards'
+   'id' => 1,
+   'name' => "Доски и лыжи",
+   'cssClass' => 'boards'
   ],
   [
-  'name' => "Крепления",
-  'cssClass' => 'attachment'
+   'id' => 2,
+   'name' => "Крепления",
+   'cssClass' => 'attachment'
   ],
   [
-  'name' => "Ботинки",
-  'cssClass' => 'boots'
+   'id' => 3,
+   'name' => "Ботинки",
+   'cssClass' => 'boots'
   ],
   [
-  'name' => "Одежда",
-  'cssClass' => 'clothing'
+   'id' => 4,
+   'name' => "Одежда",
+   'cssClass' => 'clothing'
   ],
   [
-  'name' => "Инструменты",
-  'cssClass' => 'tools'
+   'id' => 5,
+   'name' => "Инструменты",
+   'cssClass' => 'tools'
   ],
   [
-  'name' => "Разное",
-  'cssClass' => 'other'
+   'id' => 6,
+   'name' => "Разное",
+   'cssClass' => 'other'
   ]
 ];
 
 $lots__list = [
   [
    'lot_name' => '2014 Rossignol District Snowboard',
-   'lot_category' => $categories[0],
+   'lot_category' => '0',
    'lot_price' => '10999',
    'lot_url' => 'img/lot-1.jpg',
    'lot_time_hours' => rand(0, 24),
@@ -38,7 +44,7 @@ $lots__list = [
   ],
   [
    'lot_name' => 'DC Ply Mens 2016/2017 Snowboard',
-   'lot_category' => $categories[0],
+   'lot_category' => '0',
    'lot_price' => '159999',
    'lot_url' => 'img/lot-2.jpg',
    'lot_time_hours' => rand(0, 24),
@@ -46,7 +52,7 @@ $lots__list = [
   ],
   [
    'lot_name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-   'lot_category' => $categories[1],
+   'lot_category' => '1',
    'lot_price' => '8000',
    'lot_url' => 'img/lot-3.jpg',
    'lot_time_hours' => rand(0, 24),
@@ -54,7 +60,7 @@ $lots__list = [
   ],
   [
    'lot_name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-   'lot_category' => $categories[2],
+   'lot_category' => '2',
    'lot_price' => '10999',
    'lot_url' => 'img/lot-4.jpg',
    'lot_time_hours' => rand(0, 24),
@@ -62,7 +68,7 @@ $lots__list = [
   ],
   [
    'lot_name' => 'Куртка для сноуборда DC Mutiny Charocal',
-   'lot_category' => $categories[3],
+   'lot_category' => '3',
    'lot_price' => '7500',
    'lot_url' => 'img/lot-5.jpg',
    'lot_time_hours' => rand(0, 24),
@@ -70,7 +76,7 @@ $lots__list = [
   ],
   [
    'lot_name' => 'Маска Oakley Canopy',
-   'lot_category' => $categories[5],
+   'lot_category' => '5',
    'lot_price' => '5400',
    'lot_url' => 'img/lot-6.jpg',
    'lot_time_hours' => rand(0, 24),

@@ -25,7 +25,7 @@
                      <img src="<?=$lot['lot_url']?>" width="350" height="260" alt="Сноуборд">
                  </div>
                  <div class="lot__info">
-                     <span class="lot__category"><?=$lot['lot_category']['name']?></span>
+                     <span class="lot__category"><?=getCategoryById($lot['lot_category'], $categories)['name']?></span>
                      <h3 class="lot__title"><a class="text-link" href="lot.php?lot_id=<?=$key?>"><?=$lot['lot_name']?></a></h3>
                      <div class="lot__state">
                          <div class="lot__rate">
