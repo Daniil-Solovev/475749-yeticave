@@ -1,7 +1,3 @@
-<?php
-  require_once('data.php');
-?>
-
 <main class="container">
     <section class="promo">
         <h2 class="promo__title">Нужен стафф для катки?</h2>
@@ -33,7 +29,7 @@
                              <span class="lot__cost"><?=$lot['lot_price']?><b class="rub">р</b></span>
                          </div>
                          <div class="lot__timer timer">
-                             <?=lot_time_remaining($lot['lot_time_hours'], $lot['lot_time_min']);?>
+                             <?=lot_time_remaining($lot['expire']);?>
                          </div>
                      </div>
                  </div>

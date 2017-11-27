@@ -1,11 +1,15 @@
 <?php
-require_once('templates/data.php');
-require_once('functions.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/app/init.php');
 
 function validate_int($arg) {
     return filter_var($arg, FILTER_VALIDATE_INT);
 }
-$err_msg = null;
+
+
+function getFilePath( $fileName, $withDocRoot = false ) {
+    return ($withDocRoot ? $_SERVER['DOCUMENT_ROOT'] : '') . '/img/' . $fileName;
+}
+$err_msg = false;
 $errors = [
     'lot-name' => [],
     'category' => [],
@@ -21,6 +25,16 @@ $error_messages = [
     'category' => 'Выберите категорию',
     'int' => 'Введите целое число',
     'file_not_uploaded' => 'Файл не загружен'
+];
+
+$lot = [
+    'lot_name' => '',
+    'lot_category' => '',
+    'lot_price' => '',
+    'lot_step' => '',
+    'lot_url' => '',
+    'expire' => '',
+    'description' => ''
 ];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -62,50 +76,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $err_msg = true;
     }
 
-    if (empty($_POST['file'])) {
+if (!isset($_FILES['file']) || empty($_FILES['file']['name'])) {
+    $errors['file'][] = 'required';
+} else {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $file_type = finfo_file($finfo, $_FILES['file']['tmp_name']);
+    if (! in_array( $file_type, [ "image/gif", "image/jpeg", "image/png" ] )) {
         $errors['file'][] = 'required';
     }
-
-    if (isset($_FILES['file']['name'])) {
-        $tmp_name = $_FILES['file']['tmp_name'];
-        $path = $_FILES['file']['name'];
-
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $file_type = finfo_file($finfo, $tmp_name);
-        if ($file_type !== "image/gif") {
-            $errors['file'][] = 'required';
-        } else {
-            move_uploaded_file($tmp_name, 'img/' . $path);
-            if (!$_FILES['file']['error'] == 0) {
-                $errors['file'][] = 'file_not_uploaded';
-            }
-        }
-    }
-
-    if (!$err_msg) {
-        $categories[] = [
-            'name' => $_POST['category'],
-            'cssClass' => cat_class($_POST['category'])
-        ];
-
-        $lots__list[] = [
-            'lot_name' => $_POST['lot-name'],
-            'lot_category' => array_pop($categories),
-            'lot_price' => $_POST['lot-rate'],
-            'lot_url' => 'img/' . $path,
-            'lot_time_hours' => rand(0, 24),
-            'lot_time_min' => rand(0, 60)
-        ];
-        $lot = array_pop($lots__list);
-
-        $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lots__list' => $lots__list, 'lot' => $lot, 'bets' => $bets]);
-    } else {
-        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
-    }
-    
-} else {
-    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'categories' => $categories]);
+    if (!move_uploaded_file($_FILES['file']['tmp_name'], getFilePath($_FILES['file']['name'], true)) || $_FILES['file']['error']) {
+        $errors['file'][] = 'file_not_uploaded';
+       }
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот']);
+$lot['lot_name'] = $_POST['lot-name'];
+$lot['lot_category'] = $_POST['category'];
+$lot['lot_price'] = $_POST['lot-rate'];
+$lot['lot_step'] = $_POST['lot-step'];
+$lot['lot_url'] = getFilePath( $_FILES['file']['name'] );
+$lot['expire'] = strtotime( $_POST['lot-date'] );
+$lot['description'] = $_POST['message'];
+
+if (!$err_msg) {
+    $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets]);
+} else {
+    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+}
+    
+} else {
+    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+}
+
+$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories]);
 print($page__layout);

@@ -1,24 +1,11 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <li class="nav__item">
-                <a href="">Доски и лыжи</a>
-            </li>
-            <li class="nav__item">
-                <a href="">Крепления</a>
-            </li>
-            <li class="nav__item">
-                <a href="">Ботинки</a>
-            </li>
-            <li class="nav__item">
-                <a href="">Одежда</a>
-            </li>
-            <li class="nav__item">
-                <a href="">Инструменты</a>
-            </li>
-            <li class="nav__item">
-                <a href="">Разное</a>
-            </li>
+            <?php foreach ( $categories as $category ) :?>
+                <li class="nav__item">
+                    <a href="all-lots.html"><?= $category['name'] ?></a>
+                </li>
+            <?php endforeach;?>
         </ul>
     </nav>
     <section class="lot-item container">
@@ -29,22 +16,13 @@
                 <div class="lot-item__image">
                     <img src="<?=$lot['lot_url']?>" width="730" height="548" alt="Сноуборд">
                 </div>
-                <p class="lot-item__category">Категория: <span><?=$lot['lot_category']['name']?></span></p>
-                <p class="lot-item__description">Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив
-                    снег
-                    мощным щелчкоми четкими дугами. Стекловолокно Bi-Ax, уложенное в двух направлениях, наделяет этот
-                    снаряд
-                    отличной гибкостью и отзывчивостью, а симметричная геометрия в сочетании с классическим прогибом
-                    кэмбер
-                    позволит уверенно держать высокие скорости. А если к концу катального дня сил совсем не останется,
-                    просто
-                    посмотрите на Вашу доску и улыбнитесь, крутая графика от Шона Кливера еще никого не оставляла
-                    равнодушным.</p>
+                <p class="lot-item__category">Категория: <span><?= getCategoryById($lot['lot_category'], $categories)['name']?></span></p>
+                <p class="lot-item__description"><?= $lot['description']?></p>
             </div>
             <div class="lot-item__right">
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
-                        10:54:12
+                        <?=lot_time_remaining($lot['expire']);?>
                     </div>
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
