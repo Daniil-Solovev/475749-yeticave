@@ -10,7 +10,7 @@
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
-        <a class="main-header__logo">
+        <a class="main-header__logo" href="index.php">
             <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
         <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
@@ -18,12 +18,26 @@
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-
+        <?php if (!isset( $_COOKIE['name'] ) ) :?>
         <nav class="user-menu">
-
-        <!-- здесь должен быть PHP код для показа аватара пользователя -->
-
+            <div class="user-menu__logged">
+                <a href="login.php">Войти</a>
+                <a href="sign-up.php">Регистрация</a>
+            </div>
         </nav>
+        <?php else: ?>
+            <nav class="user-menu">
+                <div class="user-menu__image">
+                    <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
+
+                </div>
+                <div class="user-menu__logged">
+                    <p><?= $_COOKIE['name'] ?></p>
+                    <a href="my-lots.php">Мои лоты</a>
+                    <a href="logout.php">Выход</a>
+                </div>
+            </nav>
+        <?php endif; ?>
     </div>
 </header>
 <?=$page__content?>

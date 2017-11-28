@@ -1,8 +1,8 @@
-
+<?php if (isset($_COOKIE['name'])) :?>
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ( $categories as $category ) :?>
+            <?php foreach ($categories as $category ) :?>
              <li class="nav__item">
                  <a href="all-lots.html"><?= $category['name'] ?></a>
              </li>
@@ -74,7 +74,7 @@
             <div class="form__item form__item--small <?=$err_class_lot_step?>">
                 <label for="lot-step">Шаг ставки</label>
                 <input id="lot-step" type="number" name="lot-step" placeholder="0" required>
-                <span class="form__error"><?=$span_lot_step?></span>
+                <span class="form__error"><?=$err_span_lot_step?></span>
             </div>
             <?php $error_lot_date = array_shift( $errors[ 'lot-date' ] );
             $err_class_lot_date = $error_lot_date ? 'form__item--invalid' : '';
@@ -89,3 +89,6 @@
         <button type="submit" class="button">Добавить лот</button>
     </form>
 </main>
+<?php else: ?>
+    <?php http_response_code(403) ?>
+<?php endif;

@@ -90,7 +90,7 @@ if (!isset($_FILES['file']) || empty($_FILES['file']['name'])) {
 }
 
 $lot['lot_name'] = $_POST['lot-name'];
-$lot['lot_category'] = $_POST['category'];
+$lot['lot_category'] = (int)$_POST['category'];
 $lot['lot_price'] = $_POST['lot-rate'];
 $lot['lot_step'] = $_POST['lot-step'];
 $lot['lot_url'] = getFilePath( $_FILES['file']['name'] );
