@@ -1,3 +1,4 @@
+<?php if (!isset($_SESSION)) { session_start(); }?>
 <main>
     <nav class="nav">
         <ul class="nav__list container">
@@ -20,7 +21,7 @@
                 <p class="lot-item__description"><?= $lot['description']?></p>
             </div>
             <div class="lot-item__right">
-                <?php if (isset($_COOKIE['name'])) :?>
+                <?php if (isset($_SESSION['userId'])) :?>
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
                         <?=lot_time_remaining($lot['expire']);?>

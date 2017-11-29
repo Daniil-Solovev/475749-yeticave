@@ -9,6 +9,7 @@ function validate_int($arg) {
 function getFilePath( $fileName, $withDocRoot = false ) {
     return ($withDocRoot ? $_SERVER['DOCUMENT_ROOT'] : '') . '/img/' . $fileName;
 }
+$page__content = null;
 $err_msg = false;
 $errors = [
     'lot-name' => [],
@@ -76,35 +77,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $err_msg = true;
     }
 
-if (!isset($_FILES['file']) || empty($_FILES['file']['name'])) {
-    $errors['file'][] = 'required';
-} else {
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $file_type = finfo_file($finfo, $_FILES['file']['tmp_name']);
-    if (! in_array( $file_type, [ "image/gif", "image/jpeg", "image/png" ] )) {
+    if (!isset($_FILES['file']) || empty($_FILES['file']['name'])) {
         $errors['file'][] = 'required';
+    } else {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $file_type = finfo_file($finfo, $_FILES['file']['tmp_name']);
+        if (! in_array( $file_type, [ "image/gif", "image/jpeg", "image/png" ] )) {
+            $errors['file'][] = 'required';
+        }
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], getFilePath($_FILES['file']['name'], true)) || $_FILES['file']['error']) {
+            $errors['file'][] = 'file_not_uploaded';
+           }
     }
-    if (!move_uploaded_file($_FILES['file']['tmp_name'], getFilePath($_FILES['file']['name'], true)) || $_FILES['file']['error']) {
-        $errors['file'][] = 'file_not_uploaded';
-       }
-}
 
-$lot['lot_name'] = $_POST['lot-name'];
-$lot['lot_category'] = (int)$_POST['category'];
-$lot['lot_price'] = $_POST['lot-rate'];
-$lot['lot_step'] = $_POST['lot-step'];
-$lot['lot_url'] = getFilePath( $_FILES['file']['name'] );
-$lot['expire'] = strtotime( $_POST['lot-date'] );
-$lot['description'] = $_POST['message'];
+    $lot['lot_name'] = $_POST['lot-name'];
+    $lot['lot_category'] = (int)$_POST['category'];
+    $lot['lot_price'] = $_POST['lot-rate'];
+    $lot['lot_step'] = $_POST['lot-step'];
+    $lot['lot_url'] = getFilePath( $_FILES['file']['name'] );
+    $lot['expire'] = strtotime( $_POST['lot-date'] );
+    $lot['description'] = $_POST['message'];
 
-if (!$err_msg) {
-    $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets]);
-} else {
-    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
-}
+    if (!$err_msg) {
+        $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets]);
+    } else {
+        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+    }
     
 } else {
-    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+    if (!isset($_SESSION)) session_start();
+    if (isset($_SESSION['userId'])) {
+        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+    } else {
+        http_response_code(403);
+        $page__layout = renderTemplate('templates/layout.php', []);
+    }
 }
 
 $page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories]);

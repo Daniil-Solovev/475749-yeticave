@@ -1,4 +1,3 @@
-<?php if (isset($_COOKIE['name'])) :?>
 <main>
     <nav class="nav">
         <ul class="nav__list container">
@@ -89,6 +88,3 @@
         <button type="submit" class="button">Добавить лот</button>
     </form>
 </main>
-<?php else: ?>
-    <?php http_response_code(403) ?>
-<?php endif;

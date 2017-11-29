@@ -1,3 +1,5 @@
+<?php if (!isset($_SESSION)) { session_start(); }?>
+<?php $isUserLogged = isset( $_SESSION['userId'] )?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -18,7 +20,7 @@
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-        <?php if (!isset( $_COOKIE['name'] ) ) :?>
+        <?php if (!$isUserLogged) :?>
         <nav class="user-menu">
             <div class="user-menu__logged">
                 <a href="login.php">Войти</a>
@@ -29,12 +31,12 @@
             <nav class="user-menu">
                 <div class="user-menu__image">
                     <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
-
                 </div>
                 <div class="user-menu__logged">
-                    <p><?= $_COOKIE['name'] ?></p>
+                    <p><?= $_SESSION['name'] ?></p>
                     <a href="my-lots.php">Мои лоты</a>
-                    <a href="logout.php">Выход</a>
+                    <a href="<?php $_SERVER['DOCUMENT_ROOT']?>logout.php">Выход</a>
+
                 </div>
             </nav>
         <?php endif; ?>

@@ -18,6 +18,6 @@ if (!$lot) {
 }
 
 $page__content = renderTemplate('templates/lot.php', ['lot' => $lot, 'bets' => $bets, 'categories' => $categories]);
-$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, открытые лоты', 'categories' => $categories]);
+$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, открытые лоты', 'categories' => $categories, 'isUserLogged' => $isUserLogged]);
 
 print($page__layout);
