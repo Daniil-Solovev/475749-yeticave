@@ -61,3 +61,9 @@ function searchUserByEmail($email, $users) {
     return $result;
 }
 
+/**
+ * @return array
+ */
+function getAuthorizedUser() {
+    return ( isset( $_SESSION ) && isset( $_SESSION['user'] ) ) ? $_SESSION['user'] : null;
+}

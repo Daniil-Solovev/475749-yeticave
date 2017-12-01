@@ -20,7 +20,7 @@
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-        <?php if (!$isUserLogged) :?>
+        <?php if (!$authorizedUser) :?>
         <nav class="user-menu">
             <div class="user-menu__logged">
                 <a href="login.php">Войти</a>
@@ -33,7 +33,7 @@
                     <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
-                    <p><?= $_SESSION['name'] ?></p>
+                    <p><?= $authorizedUser['name'] ?></p>
                     <a href="my-lots.php">Мои лоты</a>
                     <a href="<?php $_SERVER['DOCUMENT_ROOT']?>logout.php">Выход</a>
 

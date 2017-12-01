@@ -99,20 +99,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['description'] = $_POST['message'];
 
     if (!$err_msg) {
-        $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets]);
+        $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
     } else {
         $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
     }
     
 } else {
-    if (!isset($_SESSION)) session_start();
-    if (isset($_SESSION['userId'])) {
-        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
-    } else {
-        http_response_code(403);
-        $page__layout = renderTemplate('templates/layout.php', []);
+    if (!$authorizedUser) {
+       http_response_code( 403 );
+       exit();
     }
+    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories]);
+$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories, 'authorizedUser' => $authorizedUser]);
 print($page__layout);

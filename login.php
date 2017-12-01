@@ -13,32 +13,42 @@ $error_messages = [
     'password_not_found' => 'Введен неверный пароль'
 ];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+function validateAuthForm( array $users ) {
+    $result = true;
+    $errors = [];
+
     if (empty($_POST['email'])) {
         $errors['email'][] = 'required';
-        $err_msg = true;
+        $result = false;
     }
     if (empty($_POST['password'])) {
         $errors['password'][] = 'required';
-        $err_msg = true;
-    }
-    session_start();
-    if (!empty($_POST['email']) && !empty($_POST['password'])) {
-        if ($user = searchUserByEmail($_POST['email'], $users)) {
-            if (!password_verify($_POST['password'], $user['password'])) {
-                $errors['password'][] = 'password_not_found';
-                $err_msg = true;
-            } else {
-                $_SESSION['userId'] = $user;
-                $_SESSION['name'] = $user['name'];
-            }
-        } else {
-            $errors['email'][] = 'email_not_found';
-            $err_msg = true;
-        }
+        $result = false;
     }
 
-    if (!$err_msg) {
+    if ( ! $result )
+        return [ $result, $errors, null ];
+    if (!$user = searchUserByEmail($_POST['email'], $users)) {
+        $errors['email'][] = 'email_not_found';
+        $result = false;
+    }
+
+    if ( ! $result )
+        return [ $result, $errors, null ];
+    if (!password_verify($_POST['password'], $user['password'])) {
+        $errors[ 'password' ][] = 'password_not_found';
+        $result = false;
+    }
+
+    return [ $result, $errors, $user ];
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        list( $validationResult, $errors, $user ) = validateAuthForm( $users );
+
+        if ($validationResult) {
+        $_SESSION['user'] = $user;
         header("Location: /index.php");
         exit();
     } else {
@@ -51,5 +61,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 
-$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, мои лоты', 'categories' => $categories]);
+$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, вход', 'categories' => $categories, 'authorizedUser' => $authorizedUser]);
 print($page__layout);
