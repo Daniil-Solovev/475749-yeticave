@@ -6,7 +6,6 @@ $errors = [
     'password' => []
 ];
 
-
 $error_messages = [
     'required' => 'Заполните это поле',
     'email_not_found' => 'Пользователь с таким email не найден',
