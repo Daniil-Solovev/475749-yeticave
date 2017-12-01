@@ -8,7 +8,7 @@
             <?php endforeach;?>
         </ul>
     </nav>
-    <form class="form container <?= $err_msg ? 'form--invalid' : ''?>" action="login.php" method="post"> <!-- form--invalid -->
+    <form class="form container <?= $result ? 'form--invalid' : ''?>" action="login.php" method="post"> <!-- form--invalid -->
         <h2>Вход</h2>
         <?php $error_name = array_shift( $errors[ 'email' ] );
         $err_class_name = $error_name ? 'form__item--invalid' : '';

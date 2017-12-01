@@ -1,11 +1,11 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/init.php');
 
-$err_msg = false;
 $errors = [
     'email' => [],
     'password' => []
 ];
+
 
 $error_messages = [
     'required' => 'Заполните это поле',
@@ -15,7 +15,10 @@ $error_messages = [
 
 function validateAuthForm( array $users ) {
     $result = true;
-    $errors = [];
+    $errors = [
+        'email' => [],
+        'password' => []
+    ];
 
     if (empty($_POST['email'])) {
         $errors['email'][] = 'required';

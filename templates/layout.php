@@ -1,5 +1,3 @@
-<?php if (!isset($_SESSION)) { session_start(); }?>
-<?php $isUserLogged = isset( $_SESSION['userId'] )?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>

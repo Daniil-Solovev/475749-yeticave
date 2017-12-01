@@ -1,4 +1,3 @@
-<?php if (!isset($_SESSION)) { session_start(); }?>
 <main>
     <nav class="nav">
         <ul class="nav__list container">
@@ -35,7 +34,7 @@
                             Мин. ставка <span>12 000 р</span>
                         </div>
                     </div>
-                    <form class="lot-item__form" action="lot.php" method="post">
+                    <form class="lot-item__form" action="" method="post">
                         <p class="lot-item__form-item">
                             <label for="cost">Ваша ставка</label>
                             <input id="cost" type="number" name="cost" placeholder="12 000">
