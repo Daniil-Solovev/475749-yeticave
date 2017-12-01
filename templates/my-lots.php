@@ -8,6 +8,7 @@
             <?php endforeach;?>
         </ul>
     </nav>
+    <?php var_dump($betList)?>
     <section class="rates container">
         <h2>Мои ставки</h2>
         <table class="rates__list">
