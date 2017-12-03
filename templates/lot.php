@@ -45,8 +45,8 @@
                 <?php endif; ?>
                 <div class="history">
                     <h3>История ставок (<span>4</span>)</h3>
+                    <?php var_dump($betsArray)?>
                     <!-- заполните эту таблицу данными из массива $bets-->
-                    <?php echo $id?>
                     <table class="history__list">
                         <?php foreach ($bets as $lot__history): ?>
                             <tr class="history__item">
