@@ -67,3 +67,37 @@ function searchUserByEmail($email, $users) {
 function getAuthorizedUser() {
     return ( isset( $_SESSION ) && isset( $_SESSION['user'] ) ) ? $_SESSION['user'] : null;
 }
+
+
+
+
+$betList = null;
+if (isset($_COOKIE['bets'])) {
+    $lot_id = null;
+    $betList = json_decode($_COOKIE['bets'], true);
+    foreach ($betList as $item) {
+        if ($item == 'lot_id') {
+            $lot_id = $item;
+            break;
+        }
+    }
+}
+
+function getBetsByUserId($userId) {
+    if (isset($_COOKIE['bets'])) {
+        $betsList = json_decode($_COOKIE['bets'], true);
+        foreach ($betsList as $item) {
+            if ($item['name'] == $userId){
+                $result = $item['lot_id'];
+            }
+        }
+    }
+    return $result;
+}
+
+
+
+
+
+
+
