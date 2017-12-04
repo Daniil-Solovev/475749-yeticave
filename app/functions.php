@@ -68,22 +68,8 @@ function getAuthorizedUser() {
     return ( isset( $_SESSION ) && isset( $_SESSION['user'] ) ) ? $_SESSION['user'] : null;
 }
 
-
-
-
-$betList = null;
-if (isset($_COOKIE['bets'])) {
-    $lot_id = null;
-    $betList = json_decode($_COOKIE['bets'], true);
-    foreach ($betList as $item) {
-        if ($item == 'lot_id') {
-            $lot_id = $item;
-            break;
-        }
-    }
-}
-
 function getBetsByUserId($userId) {
+    $result = [];
     if (isset($_COOKIE['bets'])) {
         $betsList = json_decode($_COOKIE['bets'], true);
         foreach ($betsList as $item) {
@@ -95,7 +81,14 @@ function getBetsByUserId($userId) {
     return $result;
 }
 
-
+function makeBet($bet) {
+    $betList = json_decode($_COOKIE['bets'], true);
+    $betKey = $bet['userId'] . ':' . $bet['lotId'];
+    if ( isset( $betList[$betKey] ) ) {
+        return;
+    }
+    $betList[$betKey] = $bet;
+}
 
 
 
