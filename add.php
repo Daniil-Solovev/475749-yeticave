@@ -98,8 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['expire'] = strtotime( $_POST['lot-date'] );
     $lot['description'] = $_POST['message'];
 
+    $betList = getBetsByUserId($authorizedUser['id']);
+
     if (!$err_msg) {
-        $page__content = renderTemplate('templates/lot.php', ['categories' => $categories, 'lot' => $lot, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
+        $page__content = renderTemplate('templates/lot.php', ['users' => $users, 'lot' => $lot, 'betList' => $betList,'categories' => $categories, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
     } else {
         $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
     }
