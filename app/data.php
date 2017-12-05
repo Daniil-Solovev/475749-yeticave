@@ -2,32 +2,32 @@
 
 $categories = [
 [
-  'id' => 1,
+  'id' => 0,
   'name' => "Доски и лыжи",
   'cssClass' => 'boards'
 ],
 [
-  'id' => 2,
+  'id' => 1,
   'name' => "Крепления",
   'cssClass' => 'attachment'
 ],
 [
-  'id' => 3,
+  'id' => 2,
   'name' => "Ботинки",
   'cssClass' => 'boots'
 ],
 [
-  'id' => 4,
+  'id' => 3,
   'name' => "Одежда",
   'cssClass' => 'clothing'
 ],
 [
-  'id' => 5,
+  'id' => 4,
   'name' => "Инструменты",
   'cssClass' => 'tools'
 ],
 [
-  'id' => 6,
+  'id' => 5,
   'name' => "Разное",
   'cssClass' => 'other'
 ]
@@ -35,6 +35,7 @@ $categories = [
 
 $lots__list = [
 [
+    'id' => 0,
    'lot_name' => '2014 Rossignol District Snowboard',
    'lot_category' => 1,
    'lot_price' => '10999',
@@ -47,6 +48,7 @@ $lots__list = [
    от Шона Кливера еще никого не оставляла равнодушным.'
 ],
 [
+    'id' => 1,
    'lot_name' => 'DC Ply Mens 2016/2017 Snowboard',
    'lot_category' => 1,
    'lot_price' => '159999',
@@ -55,6 +57,7 @@ $lots__list = [
    'description' => ''
 ],
 [
+    'id' => 2,
    'lot_name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
    'lot_category' => 2,
    'lot_price' => '8000',
@@ -63,6 +66,7 @@ $lots__list = [
    'description' => ''
 ],
 [
+    'id' => 3,
    'lot_name' => 'Ботинки для сноуборда DC Mutiny Charocal',
    'lot_category' => 3,
    'lot_price' => '10999',
@@ -71,6 +75,7 @@ $lots__list = [
    'description' => ''
 ],
 [
+    'id' => 4,
    'lot_name' => 'Куртка для сноуборда DC Mutiny Charocal',
    'lot_category' => 4,
    'lot_price' => '7500',
@@ -79,6 +84,7 @@ $lots__list = [
    'description' => ''
 ],
 [
+    'id' => 5,
    'lot_name' => 'Маска Oakley Canopy',
    'lot_category' => 6,
    'lot_price' => '5400',

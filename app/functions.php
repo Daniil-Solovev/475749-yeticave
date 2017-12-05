@@ -68,36 +68,86 @@ function getAuthorizedUser() {
     return ( isset( $_SESSION ) && isset( $_SESSION['user'] ) ) ? $_SESSION['user'] : null;
 }
 
-
-
-
-$betList = null;
-if (isset($_COOKIE['bets'])) {
-    $lot_id = null;
-    $betList = json_decode($_COOKIE['bets'], true);
-    foreach ($betList as $item) {
-        if ($item == 'lot_id') {
-            $lot_id = $item;
-            break;
-        }
-    }
-}
+/**
+ * @param string|int $userId
+ * @return array
+ */
 
 function getBetsByUserId($userId) {
+    $result = [];
     if (isset($_COOKIE['bets'])) {
         $betsList = json_decode($_COOKIE['bets'], true);
-        foreach ($betsList as $item) {
-            if ($item['name'] == $userId){
-                $result = $item['lot_id'];
+        foreach ($betsList as $bet) {
+            if ($bet['userId'] == $userId){
+                $result[] = $bet;
             }
         }
     }
     return $result;
 }
 
+/**
+ * @param array $bet
+ */
+function makeBet(array $bet) {
+    $betList = getAllBets();
+    $betKey = $bet['userId'] . ':' . $bet['lotId'];
+    if ( isset( $betList[$betKey] ) ) {
+        return;
+    }
+    $betList[$betKey] = $bet;
+    setcookie('bets', json_encode($betList));
+}
 
+/**
+ * @return array|mixed
+ */
+function getAllBets () {
+    $betList = [];
+    if (isset($_COOKIE['bets'])) {
+        $betList = json_decode($_COOKIE['bets'], true);
+    }
+    return $betList;
+}
 
+/**
+ * @param string|int $lotId
+ * @return array
+ */
+function getBetsByLot ($lotId) {
+    $result= [];
+    $betList = getAllBets();
+    foreach ($betList as $item) {
+        if ($item['lotId'] == $lotId) {
+            $result[] = $item;
+        }
+    }
+    return $result;
+}
 
+/**
+ * @param int|string $id
+ * @param array $lot_list
+ * @return null|array
+ */
+function getLotById ($id, $lot_list) {
+    $lot = null;
+    foreach ($lot_list as $item) {
+        if ($item['id'] == $id) {
+            $lot = $item;
+            break;
+        }
+    }
+    return $lot;
+}
 
-
-
+function getUserById ( $id, array $users) {
+    $result = null;
+    foreach ($users as $user) {
+        if ($id == $user['id']) {
+            $result = $user['name'];
+            break;
+        }
+    }
+    return $result;
+}
