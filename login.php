@@ -49,16 +49,16 @@ function validateAuthForm( array $users ) {
 
         list( $validationResult, $errors, $user ) = validateAuthForm( $users );
 
-        if ($validationResult) {
-        $_SESSION['user'] = $user;
-        header("Location: /index.php");
-        exit();
-    } else {
-        $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors, 'error_messages' => $error_messages]);
-    }
+        if ( $validationResult ) {
+            $_SESSION['user'] = $user;
+            header("Location: /index.php");
+            exit();
+        } else {
+            $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors, 'error_messages' => $error_messages, 'result' => $validationResult]);
+        }
 
 } else {
-    $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors]);
+    $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors, 'result' => true]);
 }
 
 
