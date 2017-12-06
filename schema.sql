@@ -8,7 +8,7 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 CREATE TABLE `bet` (
 	`id` INT (10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`date` date NOT NULL,
+	`date_publish` date NOT NULL,
 	`sum` INT (254) NOT NULL,
 	`user_id` INT (254) UNSIGNED NOT NULL,
 	`lot_id` INT (254) UNSIGNED NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `user` (
 	`register` date NOT NULL,
 	`email` CHAR (50) NOT NULL,
 	`name` CHAR (50) NOT NULL,
-	`password` CHAR (50) NOT NULL,
+	`password` CHAR (255) NOT NULL,
 	`avatar` CHAR (50) NOT NULL,
 	`contacts` CHAR (254) NOT NULL,
 	PRIMARY KEY (`id`),
