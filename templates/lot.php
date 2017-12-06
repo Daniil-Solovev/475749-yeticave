@@ -47,13 +47,15 @@
                     <h3>История ставок (<span>4</span>)</h3>
                     <!-- заполните эту таблицу данными из массива $bets-->
                     <table class="history__list">
-                        <?php foreach ($bets as $lot__history): ?>
+                        <?php foreach ($betList as $lot_history): ?>
+                        <?php if ($_GET['lot_id'] == $lot_history['lotId']): ?>
                             <tr class="history__item">
-                                <td class="history__name"><?= $lot__history['name'] ?></td>
-                                <td class="history__price"><?= $lot__history['price'] ?> р</td>
-                                <td class="history__time"><?= time_left($lot__history['ts']) ?></td>
+                                <td class="history__name"><?=getUserById($lot_history['userId'], $users) ?></td>
+                                <td class="history__price"><?=$lot_history['lot_rate'] . 'р' ?> </td>
+                                <td class="history__time"><?= time_left($lot_history['time']) ?></td>
                             </tr>
-                        <?php endforeach ?>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </table>
                 </div>
             </div>
