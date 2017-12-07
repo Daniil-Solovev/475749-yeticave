@@ -152,5 +152,3 @@ function getUserById ( $id, array $users) {
     return $result;
 };
 
-
-
