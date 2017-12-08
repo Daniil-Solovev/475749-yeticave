@@ -1,14 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/app/init.php');
 
-function validate_int($arg) {
-    return filter_var($arg, FILTER_VALIDATE_INT);
-}
-
-
-function getFilePath( $fileName, $withDocRoot = false ) {
-    return ($withDocRoot ? $_SERVER['DOCUMENT_ROOT'] : '') . '/img/' . $fileName;
-}
 $page__content = null;
 $err_msg = false;
 $errors = [
@@ -37,6 +29,8 @@ $lot = [
     'expire' => '',
     'description' => ''
 ];
+
+$category = getCategoryList ($link);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -94,16 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['lot_category'] = (int)$_POST['category'];
     $lot['lot_price'] = $_POST['lot-rate'];
     $lot['lot_step'] = $_POST['lot-step'];
-    $lot['lot_url'] = getFilePath( $_FILES['file']['name'] );
-    $lot['expire'] = strtotime( $_POST['lot-date'] );
+    $lot['lot_url'] = getFilePath($_FILES['file']['name']);
+    $lot['expire'] = strtotime($_POST['lot-date']);
     $lot['description'] = $_POST['message'];
 
     $betList = getBetsByUserId($authorizedUser['id']);
 
     if (!$err_msg) {
-        $page__content = renderTemplate('templates/lot.php', ['users' => $users, 'lot' => $lot, 'betList' => $betList,'categories' => $categories, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
+        $page__content = renderTemplate('templates/lot.php', ['category' => $category, 'users' => $users, 'lot' => $lot, 'betList' => $betList,'categories' => $categories, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
     } else {
-        $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+        $page__content = renderTemplate('templates/add.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
     }
     
 } else {
@@ -111,8 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        http_response_code( 403 );
        exit();
     }
-    $page__content = renderTemplate('templates/add.php', ['errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
+    $page__content = renderTemplate('templates/add.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories, 'authorizedUser' => $authorizedUser]);
+$page__layout = renderTemplate('templates/layout.php', ['category' => $category, 'page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'categories' => $categories, 'authorizedUser' => $authorizedUser]);
 print($page__layout);

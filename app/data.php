@@ -35,7 +35,7 @@ $categories = [
 
 $lots__list = [
 [
-    'id' => 0,
+   'id' => 0,
    'lot_name' => '2014 Rossignol District Snowboard',
    'lot_category' => 1,
    'lot_price' => '10999',
@@ -48,7 +48,7 @@ $lots__list = [
    от Шона Кливера еще никого не оставляла равнодушным.'
 ],
 [
-    'id' => 1,
+   'id' => 1,
    'lot_name' => 'DC Ply Mens 2016/2017 Snowboard',
    'lot_category' => 1,
    'lot_price' => '159999',
@@ -66,7 +66,7 @@ $lots__list = [
    'description' => ''
 ],
 [
-    'id' => 3,
+   'id' => 3,
    'lot_name' => 'Ботинки для сноуборда DC Mutiny Charocal',
    'lot_category' => 3,
    'lot_price' => '10999',
@@ -75,7 +75,7 @@ $lots__list = [
    'description' => ''
 ],
 [
-    'id' => 4,
+   'id' => 4,
    'lot_name' => 'Куртка для сноуборда DC Mutiny Charocal',
    'lot_category' => 4,
    'lot_price' => '7500',
@@ -84,7 +84,7 @@ $lots__list = [
    'description' => ''
 ],
 [
-    'id' => 5,
+   'id' => 5,
    'lot_name' => 'Маска Oakley Canopy',
    'lot_category' => 6,
    'lot_price' => '5400',
@@ -101,24 +101,5 @@ $bets = [
    [ 'name' => 'Семён', 'price' => 10000, 'ts' => strtotime( 'last week' ) ]
 ];
 
-$users = [
-    [
-        'id' => 1,
-        'email' => 'ignat.v@gmail.com',
-        'name' => 'Игнат',
-        'password' => '$2y$10$OqvsKHQwr0Wk6FMZDoHo1uHoXd4UdxJG/5UDtUiie00XaxMHrW8ka'
-    ],
-    [
-        'id' => 2,
-        'email' => 'kitty_93@li.ru',
-        'name' => 'Леночка',
-        'password' => '$2y$10$bWtSjUhwgggtxrnJ7rxmIe63ABubHQs0AS0hgnOo41IEdMHkYoSVa'
-    ],
-    [
-        'id' => 3,
-        'email' => 'warrior07@mail.ru',
-        'name' => 'Руслан',
-        'password' => '$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW'
-    ]
-];
+
 

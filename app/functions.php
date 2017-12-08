@@ -1,7 +1,7 @@
 <?php
 
 function renderTemplate($path, $data) {
-   if(!file_exists($path)) {
+   if(!file_exists($path = $_SERVER['DOCUMENT_ROOT'] . '/' . $path)) {
        return "";
    }
 
@@ -151,3 +151,39 @@ function getUserById ( $id, array $users) {
     }
     return $result;
 };
+
+function getOpenBets ($link) {
+    $error = null;
+    $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step FROM lot";
+    if ($result = mysqli_query($link, $sql)) {
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($link);
+        $page__content = renderTemplate($_SERVER['DOCUMENT_ROOT'] . '/templates/error.php', ['error' => $error]);
+        return $page__content;
+    }
+}
+
+function getCategoryList ($link) {
+    $error = null;
+    $sql = 'SELECT `id`, `cat_name`, `cssClass` FROM category';
+    if ($result = mysqli_query($link, $sql)) {
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_error($link);
+        $page__content = renderTemplate($_SERVER['DOCUMENT_ROOT'] . '/templates/error.php', ['error' => $error]);
+        return $page__content;
+    }
+}
+
+function validate_int($arg) {
+    return filter_var($arg, FILTER_VALIDATE_INT);
+}
+
+function validate_email($arg) {
+    return filter_var($arg, FILTER_VALIDATE_EMAIL);
+}
+
+function getFilePath( $fileName, $withDocRoot = false ) {
+    return ($withDocRoot ? $_SERVER['DOCUMENT_ROOT'] : '') . '/img/' . $fileName;
+}

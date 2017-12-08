@@ -1,9 +1,9 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ( $categories as $category ) :?>
+            <?php foreach ( $category as $value ) :?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?= $category['name'] ?></a>
+                    <a href="all-lots.html"><?= $value['cat_name'] ?></a>
                 </li>
             <?php endforeach;?>
         </ul>
@@ -14,24 +14,24 @@
         <div class="lot-item__content">
             <div class="lot-item__left">
                 <div class="lot-item__image">
-                    <img src="<?=$lot['lot_url']?>" width="730" height="548" alt="Сноуборд">
+                    <img src="<?=$lot['img']?>" width="730" height="548" alt="Сноуборд">
                 </div>
-                <p class="lot-item__category">Категория: <span><?=getCategoryById($lot['lot_category'], $categories)['name']?></span></p>
+                <p class="lot-item__category">Категория: <span><?=getCategoryById($lot['category_id'], $category)['cat_name']?></span></p>
                 <p class="lot-item__description"><?= $lot['description']?></p>
             </div>
             <div class="lot-item__right">
                 <?php if (isset($authorizedUser)) :?>
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
-                        <?=lot_time_remaining($lot['expire']);?>
+                        <?=lot_time_remaining(strtotime($lot['lot_date']));?>
                     </div>
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
                             <span class="lot-item__amount">Текущая цена</span>
-                            <span class="lot-item__cost"><?=$lot['lot_price']?></span>
+                            <span class="lot-item__cost"><?=$lot['lot_rate']?></span>
                         </div>
                         <div class="lot-item__min-cost">
-                            Мин. ставка <span>12 000 р</span>
+                            Мин. ставка <span><?=$lot['lot_step']?></span>
                         </div>
                     </div>
                     <form class="lot-item__form" action="" method="post">
