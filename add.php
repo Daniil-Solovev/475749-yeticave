@@ -89,13 +89,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['lot_price'] = $_POST['lot-rate'];
     $lot['lot_step'] = $_POST['lot-step'];
     $lot['lot_url'] = getFilePath($_FILES['file']['name']);
-    $lot['expire'] = strtotime($_POST['lot-date']);
+    $lot['expire'] = date('d.m.Y');
+    $lot['time_now'] = date($_POST['lot-date']);
     $lot['description'] = $_POST['message'];
 
     $betList = getBetsByUserId($authorizedUser['id']);
 
     if (!$err_msg) {
-        $page__content = renderTemplate('templates/lot.php', ['category' => $category, 'users' => $users, 'lot' => $lot, 'betList' => $betList,'categories' => $categories, 'bets' => $bets, 'authorizedUser' => $authorizedUser]);
+        $lot_sql = "INSERT INTO lot (date_publish, lot_name, description, img, lot_rate, lot_step, lot_date, author, winner, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['expire'], 1, 1, $lot['lot_category']];
+
+        $res = db_get_prepare_stmt($link, $lot_sql, $data_sql);
+        $mysqlli_result = mysqli_stmt_execute($res);
+        
+        $id = mysqli_insert_id($link);
+        header("Location: lot.php?lot_id=$id");
     } else {
         $page__content = renderTemplate('templates/add.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'categories' => $categories, 'lot' => $lot]);
     }
