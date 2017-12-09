@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user['name'] = $_POST['name'];
     $user['message'] = $_POST['message'];
     $user['file'] = getFilePath($_FILES['file']['name']);
-    $user['expire'] = date('d.m.Y');
+    $user['expire'] = strtotime('now');
 
 
     if (!$err_msg) {
@@ -84,8 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $res = db_get_prepare_stmt($link, $users_sql, $data_sql);
         $mysqlli_result = mysqli_stmt_execute($res);
 
-        $auth_sql = mysqli_insert_id($link);
-        $_SESSION['user'] = $auth_sql;
+        $user['id'] = mysqli_insert_id($link);
+
+        $_SESSION['user'] = $user;
         header("Location: index.php");
 
     } else {

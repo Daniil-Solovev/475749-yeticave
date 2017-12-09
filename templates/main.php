@@ -29,7 +29,7 @@
                              <span class="lot__cost"><?=$bet['lot_rate']?><b class="rub">р</b></span>
                          </div>
                          <div class="lot__timer timer">
-                             <?=lot_time_remaining(strtotime($bet['lot_date']));?>
+                             <?=lot_time_remaining($bet['lot_date']);?>
                          </div>
                      </div>
                  </div>

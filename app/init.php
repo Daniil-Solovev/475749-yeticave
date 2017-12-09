@@ -17,8 +17,9 @@ if ($link = mysqli_connect("localhost", "root", "", "Yeticave")) {
 } else {
     $error = mysqli_connect_error();
     $page__content = renderTemplate('templates/error.php', ['error' => $error]);
+    exit();
 }
 
-$sql_users = 'SELECT `id`, `name`, `email`, `password` FROM user';
+$sql_users = 'SELECT `id`, `name`, `email`, `password`, `avatar` FROM user';
 $res_SQL = mysqli_query($link, $sql_users);
 $users = mysqli_fetch_all($res_SQL, MYSQLI_ASSOC);

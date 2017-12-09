@@ -20,10 +20,10 @@
                 <p class="lot-item__description"><?= $lot['description']?></p>
             </div>
             <div class="lot-item__right">
-                <?php if (isset($authorizedUser)) :?>
+                <?php if (isset($authorizedUser) && checkValidBet($myBets, $_SESSION['user']['id'], $_GET['lot_id'])) :?>
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
-                        <?=lot_time_remaining(strtotime($lot['lot_date']));?>
+                        <?=lot_time_remaining($lot['lot_date']);?>
                     </div>
                     <div class="lot-item__cost-state">
                         <div class="lot-item__rate">
@@ -42,17 +42,19 @@
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
                 </div>
+                <?php else: ?>
+                    <p>Ставки сделаны</p>
                 <?php endif; ?>
                 <div class="history">
                     <h3>История ставок (<span>4</span>)</h3>
                     <!-- заполните эту таблицу данными из массива $bets-->
                     <table class="history__list">
-                        <?php foreach ($betList as $lot_history): ?>
-                        <?php if ($_GET['lot_id'] == $lot_history['lotId']): ?>
+                        <?php foreach ($myBets as $lot_history): ?>
+                        <?php if ($_GET['lot_id'] == $lot_history['lot_id']): ?>
                             <tr class="history__item">
-                                <td class="history__name"><?=getUserById($lot_history['userId'], $users) ?></td>
-                                <td class="history__price"><?=$lot_history['lot_rate'] . 'р' ?> </td>
-                                <td class="history__time"><?= time_left($lot_history['time']) ?></td>
+                                <td class="history__name"><?=getUserById($lot_history['user_id'], $users) ?></td>
+                                <td class="history__price"><?=$lot_history['sum'] . 'р' ?> </td>
+                                <td class="history__time"><?= time_left($lot_history['date']) ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php endforeach; ?>
