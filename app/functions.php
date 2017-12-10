@@ -148,3 +148,4 @@ function checkValidBet ($array, $id, $lot) {
     }
     return $result;
 }
+
