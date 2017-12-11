@@ -12,9 +12,9 @@ $error_messages = [
     'password_not_found' => 'Введен неверный пароль'
 ];
 
-$category = getCategoryList ($link);
+$categories = getCategoriesList ($link);
 
-function validateAuthForm( array $users ) {
+function validateAuthForm( $link ) {
     $result = true;
     $errors = [
         'email' => [],
@@ -32,7 +32,7 @@ function validateAuthForm( array $users ) {
 
     if (!$result )
         return [ $result, $errors, null ];
-    if (!$user = searchUserByEmail($_POST['email'], $users)) {
+    if (!$user = searchUserByEmail($link, $_POST['email'])) {
         $errors['email'][] = 'email_not_found';
         $result = false;
     }
@@ -48,17 +48,17 @@ function validateAuthForm( array $users ) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    list( $validationResult, $errors, $user ) = validateAuthForm( $users );
+    list( $validationResult, $errors, $user ) = validateAuthForm($link);
     if ( $validationResult ) {
         $_SESSION['user'] = $user;
         header("Location: /index.php");
         exit();
     } else {
-        $page__content = renderTemplate('templates/login.php', ['category' => $category, 'errors' => $errors, 'error_messages' => $error_messages, 'result' => $validationResult]);
+        $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors, 'error_messages' => $error_messages, 'result' => $validationResult]);
     }
 } else {
-    $page__content = renderTemplate('templates/login.php', ['category' => $category, 'errors' => $errors, 'result' => true]);
+    $page__content = renderTemplate('templates/login.php', ['categories' => $categories, 'errors' => $errors, 'result' => true]);
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['category' => $category, 'page__content' => $page__content, 'title' => 'Yeticave, вход', 'authorizedUser' => $authorizedUser]);
+$page__layout = renderTemplate('templates/layout.php', ['categories' => $categories, 'page__content' => $page__content, 'title' => 'Yeticave, вход', 'authorizedUser' => $authorizedUser]);
 print($page__layout);

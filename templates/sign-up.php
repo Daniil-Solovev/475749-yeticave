@@ -1,7 +1,7 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($category as $value ) :?>
+            <?php foreach ($categories as $value ) :?>
                 <li class="nav__item">
                     <a href="all-lots.html"><?= $value['cat_name'] ?></a>
                 </li>
@@ -15,7 +15,7 @@
         $err_span_email = $error_email ? $error_messages[$error_email] : 'Введите e-mail'; ?>
         <div class="form__item <?=$err_class_email?>"> <!-- form__item--invalid -->
             <label for="email">E-mail*</label>
-            <input id="email" type="text" name="email" placeholder="Введите e-mail" required>
+            <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $_POST['email'] ?? ''?>" required>
             <span class="form__error"><?=$err_span_email?></span>
         </div>
         <?php $error_password = array_shift( $errors['password'] );
@@ -23,7 +23,7 @@
         $err_span_password = $error_password ? $error_messages[$error_password] : 'Введите пароль'; ?>
         <div class="form__item <?=$err_class_password?>">
             <label for="password">Пароль*</label>
-            <input id="password" type="text" name="password" placeholder="Введите пароль" required>
+            <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?= $_POST['password'] ?? ''?>" required>
             <span class="form__error"><?=$err_span_password?></span>
         </div>
         <?php $error_name = array_shift( $errors['name'] );
@@ -31,7 +31,7 @@
         $err_span_name = $error_name ? $error_messages[$error_name] : 'Введите имя'; ?>
         <div class="form__item <?=$err_class_name?>">
             <label for="name">Имя*</label>
-            <input id="name" type="text" name="name" placeholder="Введите имя" required>
+            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= $_POST['name'] ?? ''?>" required>
             <span class="form__error"><?=$err_span_name?></span>
         </div>
         <?php $error_message = array_shift( $errors['message'] );
@@ -39,7 +39,7 @@
         $err_span_message = $error_message ? $error_messages[$error_message] : 'Напишите как с вами связаться'; ?>
         <div class="form__item <?=$err_class_name?>">
             <label for="message">Контактные данные*</label>
-            <textarea id="message" name="message" placeholder="Напишите как с вами связаться" required></textarea>
+            <textarea id="message" name="message" placeholder="Напишите как с вами связаться" required><?= $_POST['message'] ?? ''?></textarea>
             <span class="form__error"><?=$err_span_name?></span>
         </div>
         <?php $error_file = array_shift($errors['file']);

@@ -14,7 +14,8 @@ $errors = [
 $error_messages = [
     'required' => 'Заполните это поле',
     'email' => 'email указан неверно',
-    'file_not_uploaded' => 'Файл не загружен'
+    'file_not_uploaded' => 'Файл не загружен',
+    'email_not_found' => 'Пользователь с таким email уже существует'
 ];
 
 $user = [
@@ -26,7 +27,7 @@ $user = [
     'register' => ''
 ];
 
-$category = getCategoryList ($link);
+$categories = getCategoriesList ($link);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -49,6 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!validate_email($_POST['email'])) {
         $errors['email'][] = 'email';
+        $err_msg = true;
+    }
+    if (searchUserByEmail($link, $_POST['email'])) {
+        $errors['email'][] = 'email_not_found';
         $err_msg = true;
     }
 
@@ -77,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
     if (!$err_msg) {
-        $users_sql = "INSERT INTO user (register, email, name, password, avatar, contacts) VALUES (?, ?, ?, ?, ?, ?)";
+        $users_sql = "INSERT INTO users (register, email, name, password, avatar, contacts) VALUES (?, ?, ?, ?, ?, ?)";
         $passhash = password_hash($user['password'], PASSWORD_DEFAULT);
         $data_sql = [$user['expire'], $user['email'], $user['name'], $passhash, $user['file'], $user['message']];
 
@@ -90,12 +95,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: index.php");
 
     } else {
-        $page__content = renderTemplate('templates/sign-up.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
+        $page__content = renderTemplate('templates/sign-up.php', ['categories' => $categories, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
     }
 
 } else {
-    $page__content = renderTemplate('templates/sign-up.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
+    $page__content = renderTemplate('templates/sign-up.php', ['categories' => $categories, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages]);
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['category' => $category, 'page__content' => $page__content, 'title' => 'Yeticave, Регистрация', 'authorizedUser' => $authorizedUser]);
+$page__layout = renderTemplate('templates/layout.php', ['categories' => $categories, 'page__content' => $page__content, 'title' => 'Yeticave, Регистрация', 'authorizedUser' => $authorizedUser]);
 print($page__layout);

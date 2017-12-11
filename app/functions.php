@@ -47,16 +47,31 @@ function getCategoryById($id, $categories) {
     );
 }
 
-function searchUserByEmail($email, $users) {
-    $result = null;
-    foreach ($users as $user) {
-        if ($user['email'] == $email) {
-            $result = $user;
-            break;
-        }
-    }
+function searchUserByEmail($link, $email) {
+    $sql = 'SELECT id, register, email, name, password, avatar, contacts FROM users WHERE email = ?';
+    $sql_data = [$email];
+    $res = db_get_prepare_stmt($link, $sql, $sql_data);
+    mysqli_stmt_execute($res);
+    mysqli_stmt_bind_result($res ,$id, $register, $mail, $name, $password, $avatar, $contacts);
 
-    return $result;
+    $user['id'] = null;
+    $user['register'] = null;
+    $user['email'] = null;
+    $user['name'] = null;
+    $user['password'] = null;
+    $user['avatar'] = null;
+    $user['contacts'] = null;
+
+    while (mysqli_stmt_fetch($res)) {
+        $user['id'] = $id;
+        $user['register'] = $register;
+        $user['email'] = $mail;
+        $user['name'] = $name;
+        $user['password'] = $password;
+        $user['avatar'] = $avatar;
+        $user['contacts'] = $contacts;
+    }
+    return $user;
 }
 
 /**
@@ -82,20 +97,22 @@ function getLotById ($id, $lot_list) {
     return $lot;
 }
 
-function getUserById ( $id, array $users) {
-    $result = null;
-    foreach ($users as $user) {
+function getUserById ($link, $id) {
+    $sql = "SELECT id, email, name FROM users WHERE id=" . $id;
+    $sql_res = mysqli_query($link, $sql);
+    $result = mysqli_fetch_all($sql_res, MYSQLI_ASSOC);
+    foreach ($result as $user) {
         if ($id == $user['id']) {
-            $result = $user['name'];
+            $getUser = $user['name'];
             break;
         }
     }
-    return $result;
+    return $getUser;
 };
 
 function getOpenLots ($link) {
     $error = null;
-    $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step FROM lot";
+    $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step FROM lots";
     if ($result = mysqli_query($link, $sql)) {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
@@ -105,9 +122,9 @@ function getOpenLots ($link) {
     }
 }
 
-function getCategoryList ($link) {
+function getCategoriesList ($link) {
     $error = null;
-    $sql = 'SELECT `id`, `cat_name`, `cssClass` FROM category';
+    $sql = 'SELECT `id`, `cat_name`, `cssClass` FROM categories';
     if ($result = mysqli_query($link, $sql)) {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
@@ -130,15 +147,15 @@ function getFilePath($fileName, $withDocRoot = false) {
 }
 
 function getMyBets($link) {
-    $sql = "SELECT date, sum, user_id, lot_id FROM bet";
-    if ($result = mysqli_query($link, $sql)) {
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
-    } else {
-        header("Location: /templates/error.php");
-    }
+    $sql = "SELECT date, sum, user_id, lot_id FROM bets";
+    $sql_query = mysqli_query($link, $sql);
+    $result = mysqli_fetch_all($sql_query, MYSQLI_ASSOC);
+
+    return $result;
 }
 
 function checkValidBet ($array, $id, $lot) {
+    $result = true;
     foreach ($array as $item) {
         if ($item['user_id'] == $id and $item['lot_id'] == (int)$lot) {
             $result =  false;

@@ -1,0 +1,13 @@
+{
+    "name": "desktop/yeticave",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Daniil-Solovev",
+            "email": "frontend.servise@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}

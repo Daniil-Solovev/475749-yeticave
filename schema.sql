@@ -16,10 +16,10 @@ Date: 2017-12-09 20:45:28
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for bet
+-- Table structure for bets
 -- ----------------------------
-DROP TABLE IF EXISTS `bet`;
-CREATE TABLE `bet` (
+DROP TABLE IF EXISTS `bets`;
+CREATE TABLE `bets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date` int(254) NOT NULL,
   `sum` int(254) NOT NULL,
@@ -28,15 +28,15 @@ CREATE TABLE `bet` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_user_lot` (`user_id`,`lot_id`),
   KEY `lot_id` (`lot_id`),
-  CONSTRAINT `bet_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `bet_ibfk_2` FOREIGN KEY (`lot_id`) REFERENCES `lot` (`id`)
+  CONSTRAINT `bets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `bets_ibfk_2` FOREIGN KEY (`lot_id`) REFERENCES `lots` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for category
+-- Table structure for categories
 -- ----------------------------
-DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category` (
+DROP TABLE IF EXISTS `categories`;
+CREATE TABLE `categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cat_name` char(100) NOT NULL,
   `cssClass` char(254) DEFAULT NULL,
@@ -45,10 +45,10 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for lot
+-- Table structure for lots
 -- ----------------------------
-DROP TABLE IF EXISTS `lot`;
-CREATE TABLE `lot` (
+DROP TABLE IF EXISTS `lots`;
+CREATE TABLE `lots` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date_publish` int(254) NOT NULL,
   `lot_name` char(100) NOT NULL,
@@ -64,16 +64,16 @@ CREATE TABLE `lot` (
   KEY `idx_category_id` (`category_id`),
   KEY `author` (`author`),
   KEY `winner` (`winner`),
-  CONSTRAINT `lot_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `lot_ibfk_2` FOREIGN KEY (`author`) REFERENCES `user` (`id`),
-  CONSTRAINT `lot_ibfk_3` FOREIGN KEY (`winner`) REFERENCES `user` (`id`)
+  CONSTRAINT `lots_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
+  CONSTRAINT `lots_ibfk_2` FOREIGN KEY (`author`) REFERENCES `users` (`id`),
+  CONSTRAINT `lots_ibfk_3` FOREIGN KEY (`winner`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for user
+-- Table structure for users
 -- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `register` int(254) NOT NULL,
   `email` char(50) NOT NULL,

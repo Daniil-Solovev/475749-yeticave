@@ -30,7 +30,7 @@ $lot = [
     'description' => ''
 ];
 
-$category = getCategoryList ($link);
+$categories = getCategoriesList ($link);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['description'] = $_POST['message'];
 
     if (!$err_msg) {
-        $lot_sql = "INSERT INTO lot (date_publish, lot_name, description, img, lot_rate, lot_step, lot_date, author, winner, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $lot_sql = "INSERT INTO lots (date_publish, lot_name, description, img, lot_rate, lot_step, lot_date, author, winner, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['expire'], 1, 1, $lot['lot_category']];
 
         $res = db_get_prepare_stmt($link, $lot_sql, $data_sql);
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = mysqli_insert_id($link);
         header("Location: lot.php?lot_id=$id");
     } else {
-        $page__content = renderTemplate('templates/add.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'lot' => $lot]);
+        $page__content = renderTemplate('templates/add.php', ['categories' => $categories, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'lot' => $lot]);
     }
     
 } else {
@@ -111,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        http_response_code( 403 );
        exit();
     }
-    $page__content = renderTemplate('templates/add.php', ['category' => $category, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'lot' => $lot]);
+    $page__content = renderTemplate('templates/add.php', ['categories' => $categories, 'errors' => $errors, 'err_msg' => $err_msg, 'error_messages' => $error_messages, 'lot' => $lot]);
 }
 
-$page__layout = renderTemplate('templates/layout.php', ['category' => $category, 'page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'authorizedUser' => $authorizedUser]);
+$page__layout = renderTemplate('templates/layout.php', ['categories' => $categories, 'page__content' => $page__content, 'title' => 'Yeticave, добавить лот', 'authorizedUser' => $authorizedUser]);
 print($page__layout);

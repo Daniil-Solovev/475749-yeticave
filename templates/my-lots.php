@@ -1,7 +1,7 @@
 <main>
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($category as $value ) :?>
+            <?php foreach ($categories as $value ) :?>
                 <li class="nav__item">
                     <a href="all-lots.html"><?= $value['cat_name'] ?></a>
                 </li>
@@ -20,7 +20,7 @@
                     <h3 class="rates__title"><a href="lot.php?lot_id=<?= getLotById($bet['lot_id'], $openLots)['id']?>"><?= getLotById($bet['lot_id'], $openLots)['lot_name']?></a></h3>
                 </td>
                 <td class="rates__category">
-                    <?= getCategoryById(getLotById($bet['lot_id'], $openLots)['category_id'], $category)['cat_name']?>
+                    <?= getCategoryById(getLotById($bet['lot_id'], $openLots)['category_id'], $categories)['cat_name']?>
                 </td>
                 <td class="rates__timer">
                     <div class="timer timer--finishing ">07:13:34</div> <!-- timer--win - ставка выйграла.... timer--end - торги окончены -->
