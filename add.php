@@ -17,7 +17,8 @@ $error_messages = [
     'required' => 'Заполните это поле',
     'category' => 'Выберите категорию',
     'int' => 'Введите целое число',
-    'file_not_uploaded' => 'Файл не загружен'
+    'file_not_uploaded' => 'Файл не загружен',
+    'date' => 'Неправильно указана дата'
 ];
 
 $lot = [
@@ -51,23 +52,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $err_msg = true;
     }
 
-    if (empty($_POST['lot-step'])) {
+    if (empty($_POST['lot-step'] )) {
         $errors['lot-step'][] = 'required';
         $err_msg = true;
     }
 
-    if (!validate_int($_POST['lot-step'])) {
+    if (!validate_int($_POST['lot-step']) or $_POST['lot-step'] < 0) {
         $errors['lot-step'][] = 'int';
         $err_msg = true;
     }
 
-    if (!validate_int($_POST['lot-rate'])) {
+    if (!validate_int($_POST['lot-rate']) or $_POST['lot-rate'] < 0) {
         $errors['lot-rate'][] = 'int';
         $err_msg = true;
     }
 
     if (empty($_POST['lot-date'])) {
         $errors['lot-date'][] = 'required';
+        $err_msg = true;
+    }
+
+    if (validateDate($_POST['lot-date'])) {
+        $errors['lot-date'][] = 'date';
         $err_msg = true;
     }
 
@@ -84,18 +90,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
            }
     }
 
-    $lot['lot_name'] = $_POST['lot-name'];
+    $lot['lot_name'] = htmlspecialchars($_POST['lot-name']);
     $lot['lot_category'] = (int)$_POST['category'];
     $lot['lot_price'] = $_POST['lot-rate'];
     $lot['lot_step'] = $_POST['lot-step'];
     $lot['lot_url'] = getFilePath($_FILES['file']['name']);
     $lot['expire'] = strtotime('now');
     $lot['time_now'] = strtotime($_POST['lot-date']);
-    $lot['description'] = $_POST['message'];
+    $lot['description'] = htmlspecialchars($_POST['message']);
 
     if (!$err_msg) {
         $lot_sql = "INSERT INTO lots (date_publish, lot_name, description, img, lot_rate, lot_step, lot_date, author, winner, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['expire'], 1, 1, $lot['lot_category']];
+        $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['time_now'], 1, 1, $lot['lot_category']];
 
         $res = db_get_prepare_stmt($link, $lot_sql, $data_sql);
         $mysqlli_result = mysqli_stmt_execute($res);

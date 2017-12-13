@@ -24,11 +24,12 @@ function time_left($var) {
   if ($result__form > 24) {
     return date('d.m.y', $var) . " в " . date('H:i', $var);
   }
-  elseif ($result__form > 1 && $result__form < 24) {
-    return $result__form . " часов назад";
+  elseif ($result__form >= 1 && $result__form < 24) {
+    return $result__form . " часа(ов) назад";
   }
   return floor($result / 60) . " минут назад";
 }
+
 
 /**
  * @param int $id
@@ -112,7 +113,7 @@ function getUserById ($link, $id) {
 
 function getOpenLots ($link) {
     $error = null;
-    $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step FROM lots";
+    $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step, author FROM lots";
     if ($result = mysqli_query($link, $sql)) {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
@@ -157,7 +158,7 @@ function getMyBets($link) {
 function checkValidBet ($array, $id, $lot) {
     $result = true;
     foreach ($array as $item) {
-        if ($item['user_id'] == $id and $item['lot_id'] == (int)$lot) {
+        if ($item['user_id'] == $id && $item['lot_id'] == (int)$lot) {
             $result =  false;
         } else {
             $result = true;
@@ -166,3 +167,10 @@ function checkValidBet ($array, $id, $lot) {
     return $result;
 }
 
+function validateDate ($date) {
+    if (strtotime($date) > time()) {
+        return false;
+    } else {
+        return true;
+    }
+}

@@ -52,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['email'][] = 'email';
         $err_msg = true;
     }
-    if (searchUserByEmail($link, $_POST['email'])) {
-        $errors['email'][] = 'email_not_found';
+    if (searchUserByEmail($link, $_POST['email'])['email']) {
         $err_msg = true;
+        $errors['email'][] = 'email_not_found';
     }
 
     if (!isset($_FILES['file']) || empty($_FILES['file']['name'])) {
@@ -72,11 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         }
     }
-
-    $user['email'] = $_POST['email'];
+    $user['email'] = htmlspecialchars($_POST['email']);
     $user['password'] = $_POST['password'];
-    $user['name'] = $_POST['name'];
-    $user['message'] = $_POST['message'];
+    $user['name'] = htmlspecialchars($_POST['name']);
+    $user['message'] = htmlspecialchars($_POST['message']);
     $user['file'] = getFilePath($_FILES['file']['name']);
     $user['expire'] = strtotime('now');
 
