@@ -19,7 +19,15 @@
              <p class="lot-item__description"><?= $lot['description']?></p>
          </div>
          <div class="lot-item__right">
-             <?php if (isset($authorizedUser) && checkValidBet($myBets, $_SESSION['user']['id'], $_GET['lot_id'])) :?>
+             <?php if (!$authorizedUser): ?>
+                 <p>Для просмотра необходимо авторизоваться</p>
+             <?php elseif ($authorizedUser['id'] == $lot['author']):?>
+                 <p>Нельзя делать ставки на свой лот</p>
+             <?php elseif (($bet['lot_id'] == $_GET['lot_id']) and ($bet['user_id'] == $authorizedUser['id'])):?>
+                 <p>Ставки сделаны</p>
+             <?php elseif ($lot['lot_date'] <= time()):?>
+                 <p>Дата окончания лота истекла</p>
+             <?php else:?>
                  <div class="lot-item__state">
                      <div class="lot-item__timer timer">
                          <?=lot_time_remaining($lot['lot_date']);?>
@@ -33,9 +41,6 @@
                              Мин. ставка <span><?=$lot['lot_step']?></span>
                          </div>
                      </div>
-                     <?php if ($_SESSION['user']['id'] == $lot['author']):?>
-                         <p>Нельзя делать ставки на свой лот</p>
-                     <?php else: ?>
                      <form class="lot-item__form" action="" method="post">
                          <p class="lot-item__form-item">
                              <label for="cost">Ваша ставка</label>
@@ -43,10 +48,7 @@
                          </p>
                          <button type="submit" class="button">Сделать ставку</button>
                      </form>
-                     <?php endif; ?>
                  </div>
-             <?php else: ?>
-                 <?= !$authorizedUser ? '<p>Для просмотра необходимо авторизоваться</p>' : '<p>Ставки сделаны</p>'?>
              <?php endif; ?>
              <div class="history">
                  <h3>История ставок (<span>4</span>)</h3>

@@ -98,10 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lot['expire'] = strtotime('now');
     $lot['time_now'] = strtotime($_POST['lot-date']);
     $lot['description'] = htmlspecialchars($_POST['message']);
+    $lot['lot_author'] = $authorizedUser['id'];
 
     if (!$err_msg) {
         $lot_sql = "INSERT INTO lots (date_publish, lot_name, description, img, lot_rate, lot_step, lot_date, author, winner, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['time_now'], 1, 1, $lot['lot_category']];
+        $data_sql = [$lot['expire'], $lot['lot_name'], $lot['description'], $lot['lot_url'], $lot['lot_price'], $lot['lot_step'], $lot['time_now'], $lot['lot_author'], 1, $lot['lot_category']];
 
         $res = db_get_prepare_stmt($link, $lot_sql, $data_sql);
         $mysqlli_result = mysqli_stmt_execute($res);

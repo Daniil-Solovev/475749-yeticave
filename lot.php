@@ -31,10 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header("Location: my-lots.php");
     }
 }
-$myBets = getMyBets($link);
+$myBets = [];
+if ($authorizedUser) {
+    $myBets = getMyBets($link);
+}
+
+$bet = null;
+foreach ($myBets as $value) {
+    if ($value['lot_id'] == $_GET['lot_id'] && $value['user_id'] == $authorizedUser['id']) {
+        $bet = $value;
+    }
+}
+
 
 if (isset($lot)) {
-    $page__content = renderTemplate('templates/lot.php', ['link' => $link, 'myBets' => $myBets, 'categories' => $categories, 'lot' => $lot, 'authorizedUser' => $authorizedUser]);
+    $page__content = renderTemplate('templates/lot.php', ['bet' => $bet, 'link' => $link, 'myBets' => $myBets, 'categories' => $categories, 'lot' => $lot, 'authorizedUser' => $authorizedUser]);
 } else {
     $error = '<h1>Лот с таким id не найден</h1>';
     $page__content = renderTemplate('templates/error.php', ['error' => $error]);

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @param $path
+ * @param $data
+ * @return string
+ */
 function renderTemplate($path, $data) {
    if(!file_exists($path = $_SERVER['DOCUMENT_ROOT'] . '/' . $path)) {
        return "";
@@ -10,6 +14,10 @@ function renderTemplate($path, $data) {
    return ob_get_clean();
 }
 
+/**
+ * @param int|string $lotTimestamp
+ * @return string
+ */
 function lot_time_remaining($lotTimestamp) {
    $diff = $lotTimestamp - time();
    $h = floor( $diff / ( 60 * 60 ) );
@@ -18,6 +26,10 @@ function lot_time_remaining($lotTimestamp) {
    return $lot_time_remaining;
  }
 
+/**
+ * @param int|string $var
+ * @return string
+ */
 function time_left($var) {
   $result = time() - $var;
   $result__form = floor((time() - $var) / 3600);
@@ -29,7 +41,6 @@ function time_left($var) {
   }
   return floor($result / 60) . " минут назад";
 }
-
 
 /**
  * @param int $id
@@ -48,6 +59,11 @@ function getCategoryById($id, $categories) {
     );
 }
 
+/**
+ * @param $link
+ * @param string $email
+ * @return mixed
+ */
 function searchUserByEmail($link, $email) {
     $sql = 'SELECT id, register, email, name, password, avatar, contacts FROM users WHERE email = ?';
     $sql_data = [$email];
@@ -98,6 +114,11 @@ function getLotById ($id, $lot_list) {
     return $lot;
 }
 
+/**
+ * @param $link
+ * @param int|string $id
+ * @return mixed
+ */
 function getUserById ($link, $id) {
     $sql = "SELECT id, email, name FROM users WHERE id=" . $id;
     $sql_res = mysqli_query($link, $sql);
@@ -111,6 +132,10 @@ function getUserById ($link, $id) {
     return $getUser;
 };
 
+/**
+ * @param $link
+ * @return array|null|string
+ */
 function getOpenLots ($link) {
     $error = null;
     $sql = "SELECT id, img, lot_name, lot_rate, lot_date, category_id, description, lot_step, author FROM lots";
@@ -123,6 +148,10 @@ function getOpenLots ($link) {
     }
 }
 
+/**
+ * @param $link
+ * @return array|null|string
+ */
 function getCategoriesList ($link) {
     $error = null;
     $sql = 'SELECT `id`, `cat_name`, `cssClass` FROM categories';
@@ -135,38 +164,46 @@ function getCategoriesList ($link) {
     }
 }
 
+/**
+ * @param int|string $arg
+ * @return mixed
+ */
 function validate_int($arg) {
     return filter_var($arg, FILTER_VALIDATE_INT);
 }
 
+/**
+ * @param string $arg
+ * @return mixed
+ */
 function validate_email($arg) {
     return filter_var($arg, FILTER_VALIDATE_EMAIL);
 }
 
+/**
+ * @param string $fileName
+ * @param bool $withDocRoot
+ * @return string
+ */
 function getFilePath($fileName, $withDocRoot = false) {
     return ($withDocRoot ? $_SERVER['DOCUMENT_ROOT'] : '') . '/img/' . $fileName;
 }
 
+/**
+ * @param $link
+ * @return array|null
+ */
 function getMyBets($link) {
     $sql = "SELECT date, sum, user_id, lot_id FROM bets";
     $sql_query = mysqli_query($link, $sql);
     $result = mysqli_fetch_all($sql_query, MYSQLI_ASSOC);
-
     return $result;
 }
 
-function checkValidBet ($array, $id, $lot) {
-    $result = true;
-    foreach ($array as $item) {
-        if ($item['user_id'] == $id && $item['lot_id'] == (int)$lot) {
-            $result =  false;
-        } else {
-            $result = true;
-        }
-    }
-    return $result;
-}
-
+/**
+ * @param $date
+ * @return bool
+ */
 function validateDate ($date) {
     if (strtotime($date) > time()) {
         return false;

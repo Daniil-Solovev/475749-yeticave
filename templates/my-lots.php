@@ -12,7 +12,7 @@
         <h2>Мои ставки</h2>
         <table class="rates__list">
             <?php foreach ($myBets as $bet): ?>
-                <?php if ($bet['user_id'] == $_SESSION['user']['id']):?>
+                    <?php if ($bet['user_id'] == $authorizedUser['id']):?>
                     <tr class="rates__item rates__item--win">  <!-- item win - ставка выйграла... rates__item--end - торги окончены -->
                         <td class="rates__info">
                             <div class="rates__img">
@@ -33,7 +33,7 @@
                             <?= time_left($bet['date'])?>
                         </td>
                     </tr>
-                <?php endif; ?>
+                    <?php endif ;?>
             <?php endforeach; ?>
         </table>
     </section>
